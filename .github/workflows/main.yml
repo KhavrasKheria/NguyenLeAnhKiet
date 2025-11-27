@@ -1,0 +1,23 @@
+name: Deploy Nguon Mo
+
+on:
+  push:
+    branches:
+      - main   # khi đẩy code lên nhánh main thì sẽ deploy
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.Addresses }}
+          username: ${{ secrets.Username }}
+          password: ${{ secrets.Password }}
+          local-dir: ./       # thư mục code HTML trên repo
+          server-dir: /www.NguyenLeAnhKiet.somee.com/  # thư mục trên Somee.com (thường là wwwroot)
+          git-ftp-args: --insecure
